@@ -4,6 +4,3 @@ resources:
   - ../../../../base/apps/hello-world
 patches:
   - path: patches.yaml
-images:
-  - name: gcr.io/google-samples/hello-app
-    newTag: v2.0
