@@ -1,0 +1,6 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world        # must match name in base
+spec:
+  replicas: 2              # dev-specific replica count
