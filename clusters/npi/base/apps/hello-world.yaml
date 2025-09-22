@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./hello-world"
+  path: ./clusters/npi/base/apps/hello-world
   prune: true
   sourceRef:
     kind: GitRepository
