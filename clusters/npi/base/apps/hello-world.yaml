@@ -7,6 +7,7 @@ spec:
   interval: 5m
   path: ./clusters/npi/base/apps/hello-world
   prune: true
+  targetNamespace: apps
   sourceRef:
     kind: GitRepository
     name: cluster-npi
