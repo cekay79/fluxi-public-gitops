@@ -5,8 +5,3 @@ metadata:
 spec:
   values:
     replicaCount: 2
-    ui:
-      color: "#32a852"
-    backend: "http://echo.dev.svc.cluster.local:80"
-    ingress:
-      enabled: false
