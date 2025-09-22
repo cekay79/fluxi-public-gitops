@@ -1,0 +1,12 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: demo-helm
+spec:
+  values:
+    replicaCount: 2
+    ui:
+      color: "#32a852"
+    backend: "http://echo.dev.svc.cluster.local:80"
+    ingress:
+      enabled: false
