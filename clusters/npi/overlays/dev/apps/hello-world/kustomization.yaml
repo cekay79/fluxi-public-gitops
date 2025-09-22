@@ -5,5 +5,5 @@ resources:
 patches:
   - path: patches.yaml
 images:
-  - name: ghcr.io/acme/hello-world
+  - name: gcr.io/google-samples/hello-app
     newTag: v2.0
