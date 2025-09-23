@@ -5,7 +5,6 @@ metadata:
   namespace: flux-system
 spec:
   targetNamespace: demo-helm
-  createNamespace: true
   interval: 5m
   releaseName: demo-helm
   chart:
@@ -17,6 +16,7 @@ spec:
         name: podinfo
         namespace: flux-system
   install:
+    createNamespace: true
     remediation:
       retries: 3
   upgrade:
