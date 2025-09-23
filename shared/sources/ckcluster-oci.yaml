@@ -1,5 +1,5 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: OCIRepository
+kind: HelmRepository
 metadata:
   name: acr-state
   namespace: flux-system
@@ -7,7 +7,7 @@ spec:
   interval: 1m
   provider: generic
   # oci://<registry>.azurecr.io/<path-to-artifact-repo>
-  url: oci://ckcluster.azurecr.io/helm/petclinic
+  url: oci://ckcluster.azurecr.io/helm
   # Use the Docker registry secret created above
   secretRef:
     name: acr-auth
