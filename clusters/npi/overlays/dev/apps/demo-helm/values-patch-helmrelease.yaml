@@ -4,4 +4,5 @@ metadata:
   name: demo-helm
 spec:
   values:
+    targetNamespace: dev
     replicaCount: 2
