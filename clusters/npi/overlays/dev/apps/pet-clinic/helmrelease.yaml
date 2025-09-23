@@ -3,7 +3,9 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: petclinic
+  namespace: flux-system
 spec:
+  targetNamespace: dev
   interval: 5m
   chart:
     spec:
