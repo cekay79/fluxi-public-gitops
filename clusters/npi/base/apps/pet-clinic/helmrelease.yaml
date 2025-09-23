@@ -1,0 +1,38 @@
+# Flux HelmRelease: referenziert das OCIRepository und setzt minimale Values
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: petclinic
+  namespace: petclinic
+spec:
+  interval: 5m
+  chartRef:
+    kind: HelmRepository
+    name: acr-state
+    namespace: flux-system
+  install:
+    createNamespace: false
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    # Diese Values m\u00fcssen zu deinem Chart passen.
+    image:
+      repository: ckcluster.azurecr.io/petclinic
+      tag: latest
+      pullPolicy: IfNotPresent
+    imagePullSecrets:
+      - name: acr-auth
+    service:
+      type: NodePort
+      port: 80
+      targetPort: 8080
+    env:
+      - name: SPRING_PROFILES_ACTIVE
+        value: postgres
+      - name: SERVICE_BINDING_ROOT
+        value: /bindings
+      - name: SPRING_APPLICATION_JSON
+        value: '{"management.endpoint.health.probes.add-additional-paths": true}'
