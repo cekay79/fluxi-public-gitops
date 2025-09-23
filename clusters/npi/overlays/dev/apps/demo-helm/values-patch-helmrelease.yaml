@@ -3,6 +3,6 @@ kind: HelmRelease
 metadata:
   name: demo-helm
 spec:
+  targetNamespace: dev
   values:
-    targetNamespace: dev
     replicaCount: 2
