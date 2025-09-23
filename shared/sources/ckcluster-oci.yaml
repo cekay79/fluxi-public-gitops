@@ -7,7 +7,8 @@ spec:
   interval: 1m
   provider: generic
   # oci://<registry>.azurecr.io/<path-to-artifact-repo>
-  url: oci://ckcluster.azurecr.io/helm
+  #type: oci
+  url: https://ckcluster.azurecr.io/helm
   # Use the Docker registry secret created above
   secretRef:
     name: acr-auth
