@@ -5,7 +5,6 @@ metadata:
   name: petclinic
   namespace: flux-system
 spec:
-  targetNamespace: dev
   interval: 5m
   chart:
     spec:
