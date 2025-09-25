@@ -30,7 +30,7 @@ spec:
       targetPort: 8080
     env:
       - name: SPRING_PROFILES_ACTIVE
-        value: postgres
+        value: default
       - name: SERVICE_BINDING_ROOT
         value: /bindings
       - name: SPRING_APPLICATION_JSON

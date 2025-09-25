@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: petclinic
-      version: "0.1.0-ea66f03"
+      version: "0.1.0-76ccd61"
       sourceRef:
         kind: HelmRepository
         name: ckcluster
@@ -33,10 +33,3 @@ spec:
       type: NodePort
       port: 80
       targetPort: 8080
-    env:
-      - name: SPRING_PROFILES_ACTIVE
-        value: postgres
-      - name: SERVICE_BINDING_ROOT
-        value: /bindings
-      - name: SPRING_APPLICATION_JSON
-        value: '{"management.endpoint.health.probes.add-additional-paths": true}'
