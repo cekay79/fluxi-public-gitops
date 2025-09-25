@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: petclinic
-      version: "1.0"
+      version: "0.1.0-ea66f03"
       sourceRef:
         kind: HelmRepository
         name: ckcluster
