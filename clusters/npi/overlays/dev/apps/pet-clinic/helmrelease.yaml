@@ -33,3 +33,6 @@ spec:
       type: NodePort
       port: 80
       targetPort: 8080
+    env:
+      - name: SPRING_PROFILES_ACTIVE
+        value: default
