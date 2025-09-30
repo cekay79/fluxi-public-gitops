@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: pet-clinic
+  name: petclinic
   namespace: flux-system
 spec:
   replicaCount: 2
