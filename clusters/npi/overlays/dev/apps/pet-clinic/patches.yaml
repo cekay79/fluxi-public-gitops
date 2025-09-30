@@ -1,0 +1,6 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pet-clinic
+spec:
+  replicas: 4              # dev-specific replica count
