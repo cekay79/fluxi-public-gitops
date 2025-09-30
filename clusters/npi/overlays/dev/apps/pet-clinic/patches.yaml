@@ -4,5 +4,6 @@ metadata:
   name: petclinic
   namespace: flux-system
 spec:
-  replicaCount: 2
+  values:
+    replicaCount: 2
 
