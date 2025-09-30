@@ -3,8 +3,10 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: petclinic
+  namespace: flux-system
 spec:
   interval: 5m
+
   chartRef:
     kind: HelmRepository
     name: ckcluster
