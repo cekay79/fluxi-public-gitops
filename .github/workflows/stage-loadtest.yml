@@ -29,13 +29,13 @@ jobs:
           SRC_DIR="clusters/npi/overlays/dev/apps/pet-clinic"
           TGT_DIR="clusters/npi/overlays/loadtest/apps/pet-clinic"
 
-          SRC_FILE=$(ls ${SRC_DIR}/helmrelease.* 2>/dev/null | head -1 || true)
+          SRC_FILE=$(ls ${SRC_DIR}/patches.* 2>/dev/null | head -1 || true)
           if [ -z "$SRC_FILE" ]; then
             echo "Keine helmrelease.* Datei in dev gefunden. Abbruch."
             exit 1
           fi
 
-          TGT_FILE=$(ls ${TGT_DIR}/helmrelease.* 2>/dev/null | head -1 || true)
+          TGT_FILE=$(ls ${TGT_DIR}/patches.* 2>/dev/null | head -1 || true)
           if [ -z "$TGT_FILE" ]; then
             echo "Keine helmrelease.* Datei in loadtest gefunden. Abbruch."
             exit 1
