@@ -1,0 +1,113 @@
+name: stage-loadtest.yml
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'clusters/npi/overlays/dev/apps/pet-clinic/**'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync-pet-clinic:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: YQ installieren
+        uses: mikefarah/yq@v4
+        with:
+          cmd: yq --version
+
+      - name: Quelldatei ermitteln
+        id: files
+        run: |
+          set -e
+          SRC_DIR="clusters/npi/overlays/dev/apps/pet-clinic"
+          TGT_DIR="clusters/npi/overlays/loadtest/apps/pet-clinic"
+
+          SRC_FILE=$(ls ${SRC_DIR}/helmrelease.* 2>/dev/null | head -1 || true)
+          if [ -z "$SRC_FILE" ]; then
+            echo "Keine helmrelease.* Datei in dev gefunden. Abbruch."
+            exit 1
+          fi
+
+          TGT_FILE=$(ls ${TGT_DIR}/helmrelease.* 2>/dev/null | head -1 || true)
+          if [ -z "$TGT_FILE" ]; then
+            echo "Keine helmrelease.* Datei in loadtest gefunden. Abbruch."
+            exit 1
+          fi
+
+          echo "src=$SRC_FILE" >> $GITHUB_OUTPUT
+          echo "tgt=$TGT_FILE" >> $GITHUB_OUTPUT
+          echo "Quell: $SRC_FILE  Ziel: $TGT_FILE"
+
+      - name: Werte extrahieren
+        id: values
+        run: |
+          SRC_FILE='${{ steps.files.outputs.src }}'
+
+          CHART_VERSION=$(yq '.spec.chart.spec.version // ""' "$SRC_FILE")
+          IMAGE_TAG=$(yq '.spec.values.image.tag // .spec.values.image.version // ""' "$SRC_FILE")
+
+            # Fallback: Tag in Patches (falls durch ImageAutomation überschrieben)
+          if [ -z "$IMAGE_TAG" ] || [ "$IMAGE_TAG" = "null" ]; then
+            IMAGE_TAG=$(grep -E 'tag:' "$SRC_FILE" | head -1 | sed 's/.*tag:[[:space:]]*//')
+          fi
+
+          echo "chart_version=$CHART_VERSION" >> $GITHUB_OUTPUT
+          echo "image_tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
+          echo "Gefunden chart.version=$CHART_VERSION  image.tag=$IMAGE_TAG"
+
+          if [ -z "$CHART_VERSION" ] || [ -z "$IMAGE_TAG" ]; then
+            echo "Fehlende Werte. Abbruch."
+            exit 1
+          fi
+
+      - name: Ziel aktualisieren
+        id: patch
+        run: |
+          set -e
+          TGT_FILE='${{ steps.files.outputs.tgt }}'
+          CHART_VERSION='${{ steps.values.outputs.chart_version }}'
+          IMAGE_TAG='${{ steps.values.outputs.image_tag }}'
+
+          BEFORE_HASH=$(sha256sum "$TGT_FILE" | cut -d' ' -f1)
+
+          # Setze / erzeuge Struktur
+          yq -i ".spec.chart.spec.version = \"${CHART_VERSION}\"" "$TGT_FILE"
+          yq -i ".spec.values.image.tag = \"${IMAGE_TAG}\"" "$TGT_FILE"
+
+          AFTER_HASH=$(sha256sum "$TGT_FILE" | cut -d' ' -f1)
+
+          if [ "$BEFORE_HASH" != "$AFTER_HASH" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Datei angepasst."
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "Keine Änderung nötig."
+          fi
+
+      - name: Pull Request erstellen
+        if: steps.patch.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore(pet-clinic): Sync chart.version & image.tag dev -> loadtest"
+          title: "Sync pet-clinic Versionen dev -> loadtest"
+          body: |
+            Automatische Synchronisation:
+            * chart.version: ${{ steps.values.outputs.chart_version }}
+            * image.tag: ${{ steps.values.outputs.image_tag }}
+          branch: chore/sync-pet-clinic-loadtest
+          labels: sync,pet-clinic
+
+      - name: Ergebnis
+        run: |
+          if [ "${{ steps.patch.outputs.changed }}" = "true" ]; then
+            echo "Pull Request erstellt oder aktualisiert."
+          else
+            echo "Keine Unterschiede gefunden."
+          fi
