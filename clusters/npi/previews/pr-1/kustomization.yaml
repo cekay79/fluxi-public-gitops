@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: pr-1
 resources:
   - ../../base/apps/petclinic
-  - ../../base/apps/helloworld
+  - ../../base/apps/hello-world
   - namespace.yaml
 patches:
   - path: patches.yaml
