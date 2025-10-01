@@ -2,8 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: pr-1
 resources:
-  - ../../base/petclinic
-  - ../../base/helloworld
+  - ../../base/apps/petclinic
+  - ../../base/apps/helloworld
   - namespace.yaml
 patches:
   - path: patches.yaml
