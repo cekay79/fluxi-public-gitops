@@ -14,3 +14,6 @@ spec:
         namespace: flux-system
   values:
     replicaCount: 1
+    image:
+      repository: ckcluster.azurecr.io/petclinic
+      tag: latest

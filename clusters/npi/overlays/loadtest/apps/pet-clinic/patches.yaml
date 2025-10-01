@@ -6,4 +6,7 @@ metadata:
 spec:
   values:
     replicaCount: 10
+    image:
+      repository: ckcluster.azurecr.io/petclinic
+      tag: latest
 
