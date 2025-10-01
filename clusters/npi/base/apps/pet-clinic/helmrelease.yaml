@@ -6,11 +6,14 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-
-  chartRef:
-    kind: HelmRepository
-    name: ckcluster
-    namespace: flux-system
+  chart:
+    spec:
+      chart: petclinic
+      version: "0.1.0-d0da10d"
+      sourceRef:
+        kind: HelmRepository
+        name: ckcluster
+        namespace: flux-system
   install:
     createNamespace: false
     remediation:
@@ -33,7 +36,3 @@ spec:
     env:
       - name: SPRING_PROFILES_ACTIVE
         value: default
-      - name: SERVICE_BINDING_ROOT
-        value: /bindings
-      - name: SPRING_APPLICATION_JSON
-        value: '{"management.endpoint.health.probes.add-additional-paths": true}'
