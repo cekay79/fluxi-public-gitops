@@ -9,4 +9,6 @@ spec:
     image:
       repository: ckcluster.azurecr.io/petclinic
       tag: latest
-
+  chart:
+    spec:
+      version: 0.1.0-3c2c309
