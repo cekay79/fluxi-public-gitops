@@ -4,3 +4,4 @@ resources:
   - helmrepo-podinfo.yaml
   - ckcluster.yaml
   - secrets-manager.yaml
+  - kustomization-previews.yaml
