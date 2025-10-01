@@ -5,5 +5,5 @@ metadata:
   namespace: flux-system
 spec:
   values:
-    replicaCount: 2
+    replicaCount: 10
 
