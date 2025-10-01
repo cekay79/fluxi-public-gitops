@@ -5,3 +5,4 @@ resources:
   - ckcluster.yaml
   - secrets-manager.yaml
   - kustomization-previews.yaml
+  - ../infra/kyverno

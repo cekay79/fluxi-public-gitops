@@ -1,0 +1,41 @@
+# kyverno-helmrepo.yaml
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: kyverno
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://kyverno.github.io/kyverno/
+---
+# kyverno-helmrelease.yaml
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kyverno
+  namespace: flux-system
+spec:
+  interval: 10m
+  targetNamespace: kyverno
+  releaseName: kyverno
+  chart:
+    spec:
+      chart: kyverno
+      sourceRef:
+        kind: HelmRepository
+        name: kyverno
+        namespace: flux-system
+      # Pin a version if you want strict reproducibility (recommended).
+      # version: 3.1.0
+  install:
+    crds: Create                 # ensure CRDs are installed on first install
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace          # keep CRDs up to date on upgrades
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+  # Create the target n
