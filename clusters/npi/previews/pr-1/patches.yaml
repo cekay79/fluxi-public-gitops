@@ -8,7 +8,7 @@ spec:
     replicaCount: 10
     image:
       repository: ckcluster.azurecr.io/petclinic
-      tag: 4b0bfadfe4a1b3d6923bb93c662020d7b2d6b95b
+      tag: 0f3de8c3e43802b01df1d34bd390bd93479073c2
   chart:
     spec:
-      version: 0.1.0-4b0bfad
+      version: 0.1.0-0f3de8c
