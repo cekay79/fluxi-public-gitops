@@ -58,8 +58,8 @@ spec:
         apiVersion: v1
         kind: Secret
         name: acr-auth
-        namespace: "{{ request.object.metadata.name }}"
+        namespace: "{{request.object.metadata.name}}"
         synchronize: true
         clone:
-          namespace: secrets
+          namespace: dev
           name: acr-auth
