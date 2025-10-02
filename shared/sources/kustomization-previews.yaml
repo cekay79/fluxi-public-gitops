@@ -13,4 +13,3 @@ spec:
     name: cluster-npi
   wait: true
   timeout: 5m
-  prune: true
