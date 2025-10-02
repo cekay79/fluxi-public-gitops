@@ -1,0 +1,25 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: propagate-acr-auth
+spec:
+  validationFailureAction: Audit   # set to Enforce after you verify
+  background: true
+  rules:
+    - name: clone-acr-auth-into-labeled-namespaces
+      match:
+        any:
+          - resources:
+              kinds: ["Namespace"]
+              selector:
+                matchLabels:
+                  secrets.infra/enabled: "true"
+      generate:
+        apiVersion: v1
+        kind: Secret
+        name: acr-auth
+        namespace: "{{ request.object.metadata.name }}"
+        synchronize: true
+        clone:
+          namespace: secrets
+          name: acr-auth
