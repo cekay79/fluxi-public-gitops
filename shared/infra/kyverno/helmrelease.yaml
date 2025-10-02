@@ -19,6 +19,9 @@ kind: HelmRelease
 metadata:
   name: kyverno
   namespace: flux-system
+  annotations:
+    # one-off: forces Helm to reattempt an install/upgrade if it got stuck
+    helm.toolkit.fluxcd.io/force: "true"  
 spec:
   interval: 10m
   targetNamespace: kyverno
