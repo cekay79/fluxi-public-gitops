@@ -33,6 +33,7 @@ spec:
       # Pin a version if you want strict reproducibility (recommended).
       # version: 3.1.0
   install:
+    createNamespace: true     # <- create kyverno ns if it doesn't exist
     crds: Create                 # ensure CRDs are installed on first install
     remediation:
       retries: 3
