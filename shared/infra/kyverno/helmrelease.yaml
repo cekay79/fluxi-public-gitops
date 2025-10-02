@@ -47,4 +47,18 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    admissionController:
+      rbac:
+        clusterRole:
+          extraResources:
+            - apiGroups: [""]
+              resources: ["secrets"]
+              verbs: ["get","list","watch","create","update","patch"]
+    backgroundController:
+      rbac:
+        clusterRole:
+          extraResources:
+            - apiGroups: [""]
+              resources: ["secrets"]
+              verbs: ["get","list","watch","create","update","patch"]  
   # Create the target n
